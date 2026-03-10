@@ -4,38 +4,59 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Andar | 건강한 역동성, 세련된 미니멀리즘</title>
+    
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard/dist/web/variable/pretendardvariable.css">
     
     <style>
-        /* CSS 영역 */
+        /* ==========================================================================
+           디자인 시스템 (Figma Variables 대응)
+           ========================================================================== */
         :root {
-            --andar-bg-soft: #F7F5F2;
+            --andar-bg-soft: #F7F5F2; /* 차분하고 고급스러운 베이지 톤 */
             --andar-text-primary: #2C2A29;
+            --andar-text-secondary: #8A8580;
+            
+            --space-sm: 16px;
             --space-md: 24px;
             --space-lg: 48px;
+            --radius-md: 16px;
             --radius-lg: 24px;
+
             --font-weight-base: 300;
             --font-weight-bold: 800;
         }
 
-        body {
+        /* ==========================================================================
+           Global & Reset
+           ========================================================================== */
+        * {
+            box-sizing: border-box;
             margin: 0;
+            padding: 0;
+        }
+
+        body {
             background-color: var(--andar-bg-soft);
             color: var(--andar-text-primary);
             font-family: 'Pretendard Variable', sans-serif;
             overflow-x: hidden;
+            -webkit-font-smoothing: antialiased;
         }
 
+        /* 성능 최적화: GPU 가속 레이어 분리 */
         .gpu-accel {
             will-change: transform, opacity;
             transform: translateZ(0);
         }
 
-        /* Hero Section */
+        /* ==========================================================================
+           1. Hero Section (Scrollytelling)
+           ========================================================================== */
         .hero-section {
-            height: 200vh; 
+            height: 200vh; /* Scrollytelling을 위한 충분한 스크롤 공간 */
             position: relative;
         }
+
         .hero-sticky {
             position: sticky;
             top: 0;
@@ -47,47 +68,96 @@
             text-align: center;
             overflow: hidden;
         }
+
         .hero-title {
-            font-size: 8vw;
-            line-height: 1;
+            font-size: 9vw;
+            line-height: 1.1;
             margin: 0;
+            /* Variable Font의 weight 축을 초기화 */
             font-variation-settings: 'wght' var(--font-weight-base);
             will-change: font-variation-settings, transform;
+            z-index: 2;
         }
 
-        /* Product Section */
+        .hero-subtitle {
+            font-size: 1.5rem;
+            color: var(--andar-text-secondary);
+            margin-top: 20px;
+            z-index: 2;
+        }
+
+        /* ==========================================================================
+           2. Product Detail Section (360 Curation)
+           ========================================================================== */
         .product-section {
-            padding: 100px 20px;
+            padding: 120px 20px;
+            min-height: 100vh;
             display: flex;
             justify-content: center;
             align-items: center;
-            min-height: 100vh;
-        }
-        .product-container {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            gap: 40px;
-        }
-        .texture-img {
-            width: 100%;
-            max-width: 600px;
-            border-radius: var(--radius-lg);
-            box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+            background-color: #FFFFFF;
         }
 
-        /* Bento Grid */
-        .portfolio-section {
-            padding: var(--space-lg) var(--space-md);
+        .product-container {
+            display: flex;
+            align-items: center;
+            gap: 80px;
             max-width: 1200px;
-            margin: 0 auto 100px;
+            width: 100%;
         }
+
+        .product-visual {
+            flex: 1;
+            overflow: hidden;
+            border-radius: var(--radius-lg);
+            box-shadow: 0 30px 60px rgba(0,0,0,0.08);
+        }
+
+        .texture-img {
+            width: 100%;
+            height: auto;
+            display: block;
+            transform-origin: center center;
+        }
+
+        .product-text {
+            flex: 1;
+        }
+
+        .product-text h2 {
+            font-size: 3rem;
+            font-weight: 700;
+            margin-bottom: 20px;
+        }
+
+        .product-text p {
+            font-size: 1.25rem;
+            color: var(--andar-text-secondary);
+            line-height: 1.6;
+        }
+
+        /* ==========================================================================
+           3. Portfolio Section (Bento Grid)
+           ========================================================================== */
+        .portfolio-section {
+            padding: 120px var(--space-md);
+            max-width: 1440px;
+            margin: 0 auto;
+        }
+
+        .section-header {
+            text-align: center;
+            margin-bottom: 60px;
+            font-size: 2.5rem;
+        }
+
         .bento-grid {
             display: grid;
             grid-template-columns: repeat(4, 1fr);
-            grid-auto-rows: 300px;
+            grid-auto-rows: 320px;
             gap: var(--space-md);
         }
+
         .bento-item {
             position: relative;
             border-radius: var(--radius-lg);
@@ -96,125 +166,178 @@
             cursor: pointer;
             display: flex;
             align-items: flex-end;
+            /* 3D 원근감 설정 */
+            transform-style: preserve-3d;
         }
-        .feature-large { grid-column: span 2; grid-row: span 2; background-color: #D5D0C8; }
-        .feature-wide { grid-column: span 2; }
+
+        .bento-img {
+            position: absolute;
+            inset: 0;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.6s ease;
+        }
+
+        .bento-item:hover .bento-img {
+            transform: scale(1.05);
+        }
+
+        /* 아이템 크기 변형 레이아웃 */
+        .feature-large {
+            grid-column: span 2;
+            grid-row: span 2;
+        }
+        
+        .feature-wide {
+            grid-column: span 2;
+        }
+
         .bento-content {
             position: relative;
             z-index: 2;
-            padding: var(--space-md);
+            padding: var(--space-lg);
             font-size: 1.5rem;
             font-weight: 600;
+            color: #fff;
+            width: 100%;
+            background: linear-gradient(to top, rgba(0,0,0,0.7) 0%, transparent 100%);
         }
+
+        /* 마우스 호버 시 따라다니는 하이라이트 효과 */
         .bento-bg {
             position: absolute;
             inset: -50%;
-            background: radial-gradient(circle at center, rgba(255,255,255,0.8) 0%, transparent 50%);
+            background: radial-gradient(circle at center, rgba(255,255,255,0.4) 0%, transparent 60%);
             opacity: 0;
-            transition: opacity 0.3s ease;
             pointer-events: none;
+            z-index: 1;
+        }
+
+        /* 반응형 처리 */
+        @media (max-width: 1024px) {
+            .bento-grid { grid-template-columns: repeat(2, 1fr); }
+            .feature-wide { grid-column: span 2; }
+            .product-container { flex-direction: column; text-align: center; }
+        }
+        @media (max-width: 600px) {
+            .bento-grid { grid-template-columns: 1fr; }
+            .feature-large, .feature-wide { grid-column: span 1; grid-row: span 1; }
+            .hero-title { font-size: 14vw; }
         }
     </style>
 </head>
 <body>
 
-    <section class="hero-section">
-        <div class="hero-sticky">
-            <h1 class="hero-title">STRETCH<br>YOUR LIMITS</h1>
-            <p class="hero-subtitle">가장 부드러운 움직임, 안다르</p>
-        </div>
-    </section>
-
-    <section class="product-section">
-        <div class="product-container">
-            <div class="product-visual gpu-accel">
-                <img src="https://images.unsplash.com/photo-1606907568045-c11571bf4618?q=80&w=800&auto=format&fit=crop" alt="Fabric" class="texture-img">
+    <main>
+        <section class="hero-section">
+            <div class="hero-sticky">
+                <h1 class="hero-title">STRETCH<br>YOUR LIMITS</h1>
+                <p class="hero-subtitle">가장 부드러운 움직임, 안다르</p>
             </div>
-            <div class="product-text" style="text-align: center;">
-                <h2>완벽한 밀착감</h2>
-                <p>숨 쉬는 듯한 편안함으로 일상의 모든 순간을 지원합니다.</p>
-            </div>
-        </div>
-    </section>
+        </section>
 
-    <section class="portfolio-section">
-        <div class="bento-grid" id="bento-container">
-            <article class="bento-item feature-large">
-                <div class="bento-content">Signature Leggings</div>
-                <div class="bento-bg"></div>
-            </article>
-            <article class="bento-item">
-                <div class="bento-content">Tops</div>
-                <div class="bento-bg"></div>
-            </article>
-            <article class="bento-item">
-                <div class="bento-content">Outerwear</div>
-                <div class="bento-bg"></div>
-            </article>
-            <article class="bento-item feature-wide">
-                <div class="bento-content">Mens Collection</div>
-                <div class="bento-bg"></div>
-            </article>
-        </div>
-    </section>
+        <section class="product-section">
+            <div class="product-container">
+                <div class="product-visual gpu-accel">
+                    <img src="https://images.unsplash.com/photo-1606907568045-c11571bf4618?q=80&w=1000&auto=format&fit=crop" alt="안다르 시그니처 패브릭 질감" class="texture-img">
+                </div>
+                <div class="product-text">
+                    <h2>완벽한 밀착감</h2>
+                    <p>숨 쉬는 듯한 편안함. 안다르의 독자적인 기술력으로 완성된 패브릭은 어떤 움직임에도 제약 없는 퍼포먼스를 제공합니다.</p>
+                </div>
+            </div>
+        </section>
+
+        <section class="portfolio-section">
+            <h2 class="section-header">Discover Collection</h2>
+            <div class="bento-grid" id="bento-container">
+                <article class="bento-item feature-large">
+                    <img src="https://images.unsplash.com/photo-1518611012118-696072aa579a?q=80&w=800&auto=format&fit=crop" alt="Yoga" class="bento-img">
+                    <div class="bento-content">Signature Leggings</div>
+                    <div class="bento-bg"></div>
+                </article>
+                <article class="bento-item">
+                    <img src="https://images.unsplash.com/photo-1538805060514-97d9cc17730c?q=80&w=800&auto=format&fit=crop" alt="Running" class="bento-img">
+                    <div class="bento-content">Tops</div>
+                    <div class="bento-bg"></div>
+                </article>
+                <article class="bento-item">
+                    <img src="https://images.unsplash.com/photo-1575052814086-f385e2e2ad1b?q=80&w=800&auto=format&fit=crop" alt="Outerwear" class="bento-img">
+                    <div class="bento-content">Outerwear</div>
+                    <div class="bento-bg"></div>
+                </article>
+                <article class="bento-item feature-wide">
+                    <img src="https://images.unsplash.com/photo-1552674605-db6ffd4facb5?q=80&w=1000&auto=format&fit=crop" alt="Mens" class="bento-img">
+                    <div class="bento-content">Mens Collection</div>
+                    <div class="bento-bg"></div>
+                </article>
+            </div>
+        </section>
+    </main>
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
 
     <script>
-        // HTML이 모두 로드된 후 실행되도록 보장
         document.addEventListener("DOMContentLoaded", () => {
+            // GSAP ScrollTrigger 플러그인 등록
             gsap.registerPlugin(ScrollTrigger);
 
-            // 1. Hero 애니메이션
-            gsap.to(".hero-title", {
+            // ==========================================================================
+            // 1. Hero Section: 스크롤에 따른 키네틱 타이포그래피 (Scrollytelling)
+            // ==========================================================================
+            const heroTl = gsap.timeline({
                 scrollTrigger: {
                     trigger: ".hero-section",
                     start: "top top",
                     end: "bottom bottom",
-                    scrub: 1,
-                },
-                fontVariationSettings: "'wght' 800",
-                scale: 1.1,
-                letterSpacing: "-0.02em",
+                    scrub: 1, // 스크롤 속도에 부드럽게 반응 (1초 딜레이)
+                }
+            });
+
+            heroTl.to(".hero-title", {
+                fontVariationSettings: "'wght' 800", // 폰트 굵기를 300에서 800으로 서서히 변경
+                scale: 1.2,
+                letterSpacing: "-0.05em",
                 ease: "none"
-            });
-
-            gsap.to(".hero-subtitle", {
-                scrollTrigger: {
-                    trigger: ".hero-section",
-                    start: "top top",
-                    end: "center center",
-                    scrub: true
-                },
+            }, 0)
+            .to(".hero-subtitle", {
                 opacity: 0,
-                y: -50
-            });
+                y: -50,
+                ease: "none"
+            }, 0);
 
-            // 2. 제품 이미지 회전 애니메이션
+            // ==========================================================================
+            // 2. Product Detail: 시각적 큐레이션 (이미지 미세 회전 및 확대)
+            // ==========================================================================
             gsap.to(".texture-img", {
                 scrollTrigger: {
                     trigger: ".product-section",
-                    start: "top 80%",
-                    end: "bottom 20%",
+                    start: "top bottom",
+                    end: "bottom top",
                     scrub: 1.5,
                 },
-                rotation: 10,
-                scale: 1.1,
-                ease: "power1.inOut"
+                rotation: 8,
+                scale: 1.2,
+                ease: "none"
             });
 
-            // 3. 벤토 그리드 마우스 인터랙션
+            // ==========================================================================
+            // 3. Bento Grid: 이벤트 위임을 활용한 고성능 3D 마이크로 인터랙션
+            // ==========================================================================
             const bentoContainer = document.getElementById('bento-container');
 
             bentoContainer.addEventListener('mousemove', (e) => {
                 const item = e.target.closest('.bento-item');
                 if (!item) return;
 
+                // 마우스 위치 계산
                 const rect = item.getBoundingClientRect();
                 const x = e.clientX - rect.left;
                 const y = e.clientY - rect.top;
 
+                // 마우스 커서를 따라다니는 빛 반사(Highlight) 효과
                 const bg = item.querySelector('.bento-bg');
                 if (bg) {
                     gsap.to(bg, {
@@ -226,18 +349,20 @@
                     });
                 }
                 
-                const xPct = (x / rect.width - 0.5) * 2;
-                const yPct = (y / rect.height - 0.5) * 2;
+                // 마우스 위치에 따른 카드의 미세한 3D 회전 (Tilt 효과)
+                const xPct = (x / rect.width - 0.5) * 2; // -1 부터 1 사이의 값
+                const yPct = (y / rect.height - 0.5) * 2; // -1 부터 1 사이의 값
                 
                 gsap.to(item, {
-                    rotationY: xPct * 4,
-                    rotationX: -yPct * 4,
-                    transformPerspective: 500,
+                    rotationY: xPct * 6, // 최대 6도 회전
+                    rotationX: -yPct * 6,
+                    transformPerspective: 1000,
                     duration: 0.5,
                     ease: "power2.out"
                 });
             });
 
+            // 마우스가 영역을 벗어날 때 원래 상태로 복구
             bentoContainer.addEventListener('mouseout', (e) => {
                 const item = e.target.closest('.bento-item');
                 if (!item) return;
@@ -247,212 +372,15 @@
                     gsap.to(bg, { opacity: 0, duration: 0.3 });
                 }
 
+                // 탄성(Elastic) 애니메이션을 주어 자연스럽게 원위치
                 gsap.to(item, {
                     rotationY: 0,
                     rotationX: 0,
-                    duration: 0.7,
-                    ease: "elastic.out(1, 0.5)"
+                    duration: 0.8,
+                    ease: "elastic.out(1, 0.5)" 
                 });
             });
         });
     </script>
 </body>
 </html>
-:root {
-    /* Figma Variables Tokenization */
-    --andar-bg-soft: #F7F5F2; /* 차분하고 고급스러운 베이지 톤 */
-    --andar-text-primary: #2C2A29;
-    --andar-text-secondary: #8A8580;
-    
-    /* Spacing & Radius */
-    --space-sm: 16px;
-    --space-md: 24px;
-    --space-lg: 48px;
-    --radius-md: 16px;
-    --radius-lg: 24px;
-
-    /* Typography */
-    --font-weight-base: 300;
-    --font-weight-bold: 800;
-}
-
-body {
-    margin: 0;
-    background-color: var(--andar-bg-soft);
-    color: var(--andar-text-primary);
-    font-family: 'Pretendard Variable', sans-serif;
-    overflow-x: hidden;
-}
-
-/* 성능 최적화: GPU 가속 레이어 분리 */
-.gpu-accel {
-    will-change: transform, opacity;
-    transform: translateZ(0);
-}
-
-/* --- Hero Section --- */
-.hero-section {
-    height: 200vh; /* Scrollytelling을 위한 충분한 스크롤 공간 */
-    position: relative;
-}
-.hero-sticky {
-    position: sticky;
-    top: 0;
-    height: 100vh;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    text-align: center;
-    overflow: hidden;
-}
-.hero-title {
-    font-size: 8vw;
-    line-height: 1;
-    margin: 0;
-    /* Variable Font의 weight 축을 애니메이션에 활용 */
-    font-variation-settings: 'wght' var(--font-weight-base);
-    will-change: font-variation-settings, transform;
-}
-
-/* --- Bento Grid Layout --- */
-.portfolio-section {
-    padding: var(--space-lg) var(--space-md);
-    max-width: 1440px;
-    margin: 0 auto;
-}
-.bento-grid {
-    display: grid;
-    grid-template-columns: repeat(4, 1fr);
-    grid-auto-rows: 320px;
-    gap: var(--space-md);
-}
-.bento-item {
-    position: relative;
-    border-radius: var(--radius-lg);
-    background-color: #EBE7E1;
-    overflow: hidden;
-    cursor: pointer;
-}
-.feature-large {
-    grid-column: span 2;
-    grid-row: span 2;
-}
-.feature-wide {
-    grid-column: span 2;
-}
-.bento-content {
-    position: relative;
-    z-index: 2;
-    padding: var(--space-md);
-    font-size: 1.25rem;
-    font-weight: 500;
-}
-.bento-bg {
-    position: absolute;
-    inset: 0;
-    background: radial-gradient(circle at center, rgba(255,255,255,0.4) 0%, transparent 70%);
-    opacity: 0;
-    transition: opacity 0.3s ease;
-    pointer-events: none;
-}
-gsap.registerPlugin(ScrollTrigger);
-
-document.addEventListener("DOMContentLoaded", () => {
-    
-    // 1. Hero Section: Variable Font 및 Kinetic Typography 애니메이션
-    // 사용자의 스크롤 속도와 애니메이션을 1:1 매핑 (scrub)
-    gsap.to(".hero-title", {
-        scrollTrigger: {
-            trigger: ".hero-section",
-            start: "top top",
-            end: "bottom bottom",
-            scrub: 1, // 1초 지연을 주어 Framer Motion과 같은 부드러운 감도(Spring 느낌) 연출
-        },
-        fontVariationSettings: "'wght' 800", // 폰트 굵기 변화
-        scale: 1.1,
-        letterSpacing: "-0.02em",
-        ease: "none"
-    });
-
-    gsap.to(".hero-subtitle", {
-        scrollTrigger: {
-            trigger: ".hero-section",
-            start: "top top",
-            end: "center center",
-            scrub: true
-        },
-        opacity: 0,
-        y: -50
-    });
-
-    // 2. Product Detail: 시각적 큐레이션 (패브릭 질감 회전 및 스케일)
-    gsap.to(".texture-img", {
-        scrollTrigger: {
-            trigger: ".product-section",
-            start: "top 80%",
-            end: "bottom 20%",
-            scrub: 1.5,
-        },
-        rotation: 15,
-        scale: 1.2,
-        transformOrigin: "center center",
-        ease: "power1.inOut"
-    });
-
-    // 3. Bento Grid: 마우스 호버 마이크로 인터랙션 (Event Delegation 적용)
-    // 수십 개의 아이템이 있어도 리스너는 1개만 동작하여 INP 및 메모리 최적화
-    const bentoContainer = document.getElementById('bento-container');
-
-    bentoContainer.addEventListener('mousemove', (e) => {
-        const item = e.target.closest('.bento-item');
-        if (!item) return;
-
-        // 아이템 내 마우스 위치 계산
-        const rect = item.getBoundingClientRect();
-        const x = e.clientX - rect.left;
-        const y = e.clientY - rect.top;
-
-        // 마우스 커서를 따라다니는 은은한 하이라이트 효과
-        const bg = item.querySelector('.bento-bg');
-        if (bg) {
-            gsap.to(bg, {
-                x: x - rect.width / 2,
-                y: y - rect.height / 2,
-                opacity: 1,
-                duration: 0.4,
-                ease: "power2.out"
-            });
-        }
-        
-        // 아이템 자체의 미세한 틸트(Tilt) 효과
-        const xPct = (x / rect.width - 0.5) * 2;
-        const yPct = (y / rect.height - 0.5) * 2;
-        
-        gsap.to(item, {
-            rotationY: xPct * 4,
-            rotationX: -yPct * 4,
-            transformPerspective: 500,
-            duration: 0.5,
-            ease: "power2.out"
-        });
-    });
-
-    bentoContainer.addEventListener('mouseout', (e) => {
-        const item = e.target.closest('.bento-item');
-        if (!item) return;
-
-        const bg = item.querySelector('.bento-bg');
-        if (bg) {
-            gsap.to(bg, { opacity: 0, duration: 0.3 });
-        }
-
-        // 마우스 아웃 시 원래 상태로 복귀
-        gsap.to(item, {
-            rotationY: 0,
-            rotationX: 0,
-            duration: 0.7,
-            ease: "elastic.out(1, 0.5)" // 탄성 있는 복귀
-        });
-    });
-});
